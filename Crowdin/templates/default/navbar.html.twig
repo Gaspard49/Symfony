@@ -1,0 +1,48 @@
+<header>
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header col-md-3 col-lg-2">
+				<a class="navbar-brand" href="{{ path('index') }}">
+					Home
+				</a>
+			</div>
+			<div class="navbar-header col-md-3 col-lg-2">
+				<a class="navbar-brand" href="{{ path('project_index') }}">
+					Projects
+				</a>
+			</div>
+			<div class="navbar-header col-md-3 col-lg-2">
+				<a class="navbar-brand" href="{{ path('traduction_source_index') }}">
+					Translations Source
+				</a>
+			</div>
+			<div class="navbar-header col-md-3 col-lg-2">
+				<a class="navbar-brand" href="{{ path('traduction_target_index') }}">
+					Translations Target
+				</a>
+			</div>
+			<div class="navbar-header col-md-3 col-lg-2">
+				<a class="navbar-brand" href="{{ path('user_index') }}">
+					Translators
+				</a>
+			</div>
+			{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+				<div>
+					<a href="{{ path('app_register') }}">Register</a>
+					/
+					<a href="{{ path('app_login') }}">Login</a>
+				</div>
+			{% else %}
+				<a href="{{ path('app_show',{'id': app.user.id}) }}">My Profile</a>
+					<br>
+				<a href="{{ path('project_new') }}">Create new project</a>
+				<br>
+				<a href="{{ path('app_logout') }}">Logout</a>
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<li>
+					<a href="{{ path('easyadmin') }}">
+						Admin
+					</a>
+				</li>
+			{% endif %}

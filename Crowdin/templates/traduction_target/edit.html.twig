@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TraductionTarget{% endblock %}
+
+{% block body %}
+    <h1>Edit TraductionTarget</h1>
+
+    {{ include('traduction_target/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('traduction_target_index') }}">back to list</a>
+
+    {{ include('traduction_target/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TraductionSource index
+{% endblock %}
+
+{% block body %}
+	<h1>Translation Source index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Project</th>
+				<th>Source</th>
+				<th>Language</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for language in app.user.languages %}
+				{% for traduction_source in traduction_sources %}
+					{% if language.languageName ==  traduction_source.projectId.languageId.LanguageName %}
+						<tr>
+							<td>{{	traduction_source.projectid.name  }}</td>
+							<td>{{ traduction_source.source }}</td>
+							<td>{{	traduction_source.projectid.LanguageId.LanguageName  }}</td>
+							<td>
+								<a href="{{ path('traduction_source_show', {'id': traduction_source.id}) }}">show</a>
+								{% if is_granted('edit', traduction_source) %}
+									<a href="{{ path('traduction_source_edit', {'id': traduction_source.id}) }}">edit</a>
+								</td>
+							</td>
+							<td>
+								{{ include('traduction_source/_delete_form.html.twig') }}
+							</td>
+						{% endif %}
+					</tr>
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+		{{ knp_pagination_render(traduction_sources) }}
+	</tbody>
+</table>{% endblock %}

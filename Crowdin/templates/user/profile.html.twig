@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile of
+	{{user.pseudo}}
+{% endblock %}
+
+{% block body %}
+
+<h1>
+	Profile of
+	{{user.pseudo}}
+</h1>
+{% if is_granted('edit', user) %}
+	<a href="{{ path('user_edit', {'id': user.id}) }}">Edit Profile</a>
+{% endif %}
+{% if user.projects|length > 0 %}
+ <div id="div_chart"></div>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        {{ gc_draw(chart, 'div_chart') }}</script>
+{% endif %}
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Username</th>
+			<th>Email</th>
+			<th>Description</th>
+			<th>Languages</th>
+			<th>Number of Projects</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{user.id}}</td>
+			<td>{{user.pseudo}}</td>
+			<td>
+				{{user.email}}</td>
+			<td>
+				{{user.description}}</td>
+			{% for language in user.languages %}
+				<td>{{language.languageName }}</td>
+			{% endfor %}
+			<td>
+				{{ user.projects|length }}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Projects</h3>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Url</th>
+			<th>Language</th>
+			<th>actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for project in user.projects %}
+			<tr>
+				<td>{{ project.id }}</td>
+				<td>{{ project.name }}</td>
+				<td>{{ project.url }}</td>
+				<td>{{ project.languageId.LanguageName }}</td>
+				<td>
+					<a href="{{ path('project_show', {'id': project.id}) }}">show</a>
+					{% if is_granted('edit', project) %}
+						<a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+					</td>
+				</td>
+				<td>
+					{{ include('project/_delete_form.html.twig') }}
+				</td>
+			{% endif %}
+		</tr>
+	{% else %}
+		<tr>
+			<td colspan="4">no records found</td>
+		</tr>
+	{% endfor %}
+</tbody></table><h3>Translations</h3><table class="table">
+<thead>
+	<tr>
+		<th>Source</th>
+		<th>Translation</th>
+		<th>Language</th>
+		<th>actions</th>
+	</tr>
+</thead>
+<tbody>
+	{% for traductionTarget in user.traductionTargets %}
+		<tr>
+			<td>{{traductionTarget.traductionSourceId.source }}</td>
+			<td>{{ traductionTarget.target }}</td>
+			<td>{{ traductionTarget.languageId.LanguageName }}</td>
+			<td>
+			{% if is_granted('edit', traductionTarget) %}
+					<a href="{{ path('traduction_target_edit', {'id': traductionTarget.id}) }}">edit</a>
+			{% endif %}
+			<a href="{{ path('traduction_target_show', {'id': traductionTarget.id}) }}">show</a>
+			</td>
+		</tr>
+	</td>
+</tbody></tr>{% endfor %}</tbody></table>{% endblock %}

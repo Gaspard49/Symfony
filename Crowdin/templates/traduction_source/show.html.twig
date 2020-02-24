@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TraductionSource
+{% endblock %}
+
+{% block body %}
+	<h1>Translations for
+		{{traduction_source.source}}</h1>
+
+
+	<a href="{{ path('traduction_target_new', {'id': traduction_source.id}) }}">New Translation</a>
+
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th>Language</th>
+				<th>Translation</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for traduction_target in traduction_source.traductionTargets %}
+				<tr>
+					<td>{{ traduction_target.languageId.LanguageName }}</td>
+					<td>{{ traduction_target.target }}</td>
+					<td>
+						<a href="{{ path('traduction_target_show', {'id': traduction_target.id}) }}">show</a>
+						{% if is_granted('edit', traduction_target) %}
+							<a href="{{ path('traduction_target_edit', {'id': traduction_target.id}) }}">edit</a>
+						</td>
+					</td>
+					<td>
+						{{ include('traduction_target/_delete_form.html.twig') }}
+					</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<br><br>
+
+<a href="{{ path('traduction_source_index') }}">back to list</a>{% endblock %}

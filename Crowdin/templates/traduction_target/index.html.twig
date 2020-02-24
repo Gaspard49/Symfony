@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TraductionTarget index
+{% endblock %}
+
+{% block body %}
+	<h1>Traductions index</h1>
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Project</th>
+				<th>Author</th>
+				<th>Source</th>
+				<th>Language</th>
+				<th>Translation</th>
+				<th>Language</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+				{% for traduction_target in traduction_targets %}
+						<tr>
+							<td>{{ traduction_target.traductionSourceId.projectId.name  }}</td>
+							<td>{{ traduction_target.traductionSourceId.projectId.user.pseudo }}</td>
+							<td>{{ traduction_target.traductionSourceId.source }}</td>
+							<td>{{ traduction_target.traductionSourceId.projectId.languageId.LanguageName  }}</td>
+							<td>{{ traduction_target.target }}</td>
+							<td>{{ traduction_target.languageId.LanguageName }}</td>
+							<td>
+								{% if is_granted('edit', traduction_target) %}
+									<a href="{{ path('traduction_target_edit', {'id': traduction_target.id}) }}">edit</a>
+								</td>
+							</td>
+							<td>
+								{{ include('traduction_target/_delete_form.html.twig') }}
+							</td>
+						{% endif %}
+					</tr>
+			
+		{% endfor %}
+	</tbody>
+</table>{% endblock %}
